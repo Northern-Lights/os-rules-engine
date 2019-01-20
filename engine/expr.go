@@ -46,13 +46,13 @@ func Deserialize(x *rules.Expression) (expr ExpressionSerializer, err error) {
 		expr, err = deserializeStrExpression(x)
 
 	case rules.Operation_DST_HOST:
-		expr, err = deserializeHost(x)
+		expr, err = deserializeStrExpression(x)
 
 	case rules.Operation_DST_PORT:
 		expr, err = deserializePort(x)
 
 	case rules.Operation_PROC_PATH:
-		expr, err = deserializeProcPath(x)
+		expr, err = deserializeStrExpression(x)
 
 	case rules.Operation_PID:
 		expr, err = deserializePID(x)
