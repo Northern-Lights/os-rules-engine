@@ -28,6 +28,9 @@ enum Duration {
 enum Operation {
     OPERATION_UNKNOWN = 0;
 
+    TRUE = 9;
+    FALSE = 10;
+
     AND = 1;
     OR = 2;
     NOT = 3;

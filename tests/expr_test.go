@@ -115,3 +115,25 @@ func TestSerializeDeserialize(t *testing.T) {
 		t.Errorf("Right expression wrong operation or missing operand")
 	}
 }
+
+func TestShortCircuitTrue(t *testing.T) {
+	var (
+		wrongIP   = "10.1.1.1"
+		wrongPort = uint32(99)
+		condIP    = engine.IPAddr(wrongIP)
+		condPort  = engine.Port(wrongPort)
+		condWrong = engine.And(condIP, condPort)
+	)
+
+	matched := condWrong.Evaluate(conn)
+	if matched {
+		t.Fatalf(`Wrong condition somehow matched`)
+	}
+
+	condTrue := engine.Bool(true)
+	shortCircuitTrue := engine.Or(condTrue, condWrong)
+	matched = shortCircuitTrue.Evaluate(conn)
+	if !matched {
+		t.Errorf(`Wrong condition was not short circuited`)
+	}
+}

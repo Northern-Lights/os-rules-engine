@@ -1,5 +1,5 @@
 /*
- * AND, OR, NOT
+ * TRUE, FALSE, AND, OR, NOT
  * - Evaluation
  * - Serialization
  * - Deserialization
@@ -13,6 +13,40 @@ import (
 	"github.com/Northern-Lights/os-rules-engine/network"
 	"github.com/Northern-Lights/os-rules-engine/rules"
 )
+
+type boolExpr struct {
+	op rules.Operation
+}
+
+func (x boolExpr) Evaluate(_ *network.Connection) bool {
+	return x.op == rules.Operation_TRUE
+}
+
+func (x boolExpr) Serialize() *rules.Expression {
+	return &rules.Expression{
+		Operation: x.op,
+	}
+}
+
+// Bool returns an ExpressionSerializer which will return the value given,
+// regardless of the connection to be verified against. Useful for
+// short-circuiting other expressions
+func Bool(value bool) ExpressionSerializer {
+	var x boolExpr
+	if value == true {
+		x.op = rules.Operation_TRUE
+	} else {
+		x.op = rules.Operation_FALSE
+	}
+	return x
+}
+
+func deserializeBool(x *rules.Expression) (expr ExpressionSerializer, err error) {
+	expr = boolExpr{
+		op: x.Operation,
+	}
+	return
+}
 
 type binaryExpressionConstructor func(x1, x2 ExpressionSerializer) ExpressionSerializer
 

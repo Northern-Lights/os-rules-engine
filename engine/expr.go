@@ -33,6 +33,12 @@ func Deserialize(x *rules.Expression) (expr ExpressionSerializer, err error) {
 	}
 
 	switch x.Operation {
+	case rules.Operation_TRUE:
+		expr, err = deserializeBool(x)
+
+	case rules.Operation_FALSE:
+		expr, err = deserializeBool(x)
+
 	case rules.Operation_AND:
 		expr, err = deserializeAnd(x)
 
