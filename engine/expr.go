@@ -43,7 +43,7 @@ func Deserialize(x *rules.Expression) (expr ExpressionSerializer, err error) {
 		expr, err = deserializeNot(x)
 
 	case rules.Operation_DST_IP:
-		expr, err = deserializeIPAddr(x)
+		expr, err = deserializeStrExpression(x)
 
 	case rules.Operation_DST_HOST:
 		expr, err = deserializeHost(x)
