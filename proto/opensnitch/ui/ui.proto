@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package opensnitch.ui;
+
+import "opensnitch/network/network.proto";
+import "opensnitch/rules/rules.proto";
+
+service UI {
+    rpc Ping(PingRequest) returns (PingReply) {}
+    rpc AskRule (opensnitch.network.Connection) returns (opensnitch.rules.Rule) {}
+}
+
+message PingRequest {
+    uint64 id = 1;
+    Statistics stats = 2;
+}
+
+message PingReply {
+    uint64 id = 1;
+}
+
+message Statistics {
+    string daemon_version = 1;
+    uint64 rules = 2;
+    uint64 uptime = 3;
+	uint64 dns_responses = 4;
+	uint64 connections  = 5;
+	uint64 ignored = 6;
+	uint64 accepted = 7;
+	uint64 dropped = 8;
+	uint64 rule_hits = 9;
+	uint64 rule_misses = 10;
+	map<string, uint64> by_proto = 11;
+	map<string, uint64> by_address = 12;
+	map<string, uint64> by_host = 13;
+	map<string, uint64> by_port = 14;
+	map<string, uint64> by_uid = 15;
+	map<string, uint64> by_executable = 16;
+    repeated Event events = 17;
+}
+
+message Event {
+    string time = 1;
+    opensnitch.network.Connection connection = 2;
+    opensnitch.rules.Rule rule = 3;
+}

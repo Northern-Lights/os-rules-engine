@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package opensnitch.rules;
+
+option go_package = "github.com/Northern-Lights/os-rules-engine/rules";
+
+message Rule {
+    Action action = 1;
+    Duration duration = 2;
+    Expression condition = 3;
+}
+
+enum Action {
+    ACTION_UNKNOWN = 0;
+    ALLOW = 1;
+    DENY = 2;
+}
+
+// Duration tells how long a rule should apply
+enum Duration {
+    DURATION_UNKNOWN = 0;
+    ONCE = 1;
+    FIREWALL_SESSION = 2;
+    ALWAYS = 3;
+}
+
+// Operation denotes the target to operate upon and how to operate on it
+enum Operation {
+    OPERATION_UNKNOWN = 0;
+
+    AND = 1;
+    OR = 2;
+    NOT = 3;
+
+    DST_IP = 4;
+    DST_HOST = 5;
+    DST_PORT = 6;
+
+    PROC_PATH = 7;
+
+    PID = 8;
+}
+
+// Expression is used to decide whether a connection matches a condition.
+// It can be made up of 1 other expression (e.g. for NOT) or 2 other expressions
+// (e.g. for AND or OR,) or it can be a "leaf" expression specifying a primitive
+// type upon which to operate. The language-specific implementation should
+// select the correct field based on the operation
+message Expression {
+    Operation operation = 1;
+    Expression left = 14;
+    Expression right = 15;
+    repeated string strings = 2;
+    repeated uint32 uint32s = 3;
+}
