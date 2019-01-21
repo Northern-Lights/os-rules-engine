@@ -4,5 +4,8 @@
         "options": [
             "--proto_path=${workspaceFolder}/proto",
         ]
+    },
+    "go.toolsEnvVars": {
+        "GO111MODULE": "on"
     }
 }
