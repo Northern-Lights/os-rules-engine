@@ -162,12 +162,10 @@ func TestPersistence(t *testing.T) {
 		t.Fatalf("Couldn't create temp file: %s", err)
 	}
 
-	rule := &engine.Rule{
-		Rule: localhostDNSRule,
-	}
+	rule := localhostDNSRule
 
 	var ldr engine.JSONLoader
-	err = ldr.SaveRules(f, []*engine.Rule{rule})
+	err = ldr.SaveRules(f, []*rules.Rule{rule})
 	if err != nil {
 		t.Fatalf(`Couldn't save rule: %s`, err)
 	}
@@ -191,19 +189,19 @@ func TestPersistence(t *testing.T) {
 	}
 
 	loadedRule := loadedRules[0]
-	if loadedRule.Rule.Action != localhostDNSRule.Action {
+	if loadedRule.Action != localhostDNSRule.Action {
 		t.Errorf("Expected action %s; got %s",
 			localhostDNSRule.Action,
-			loadedRule.Rule.Action)
+			loadedRule.Action)
 	}
-	if loadedRule.Rule.Duration != localhostDNSRule.Duration {
+	if loadedRule.Duration != localhostDNSRule.Duration {
 		t.Errorf("Expected duration %s; got %s",
 			localhostDNSRule.Duration,
-			loadedRule.Rule.Duration)
+			loadedRule.Duration)
 	}
-	if loadedRule.Rule.Condition.Operation != localhostDNSRule.Condition.Operation {
+	if loadedRule.Condition.Operation != localhostDNSRule.Condition.Operation {
 		t.Errorf("Expected 1st level condition %s; got %s",
 			localhostDNSRule.Condition.Operation,
-			loadedRule.Rule.Condition.Operation)
+			loadedRule.Condition.Operation)
 	}
 }
