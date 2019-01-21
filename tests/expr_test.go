@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/Northern-Lights/os-rules-engine/engine"
+	engine "github.com/Northern-Lights/os-rules-engine"
 	"github.com/Northern-Lights/os-rules-engine/network"
 	"github.com/Northern-Lights/os-rules-engine/rules"
 )
