@@ -163,7 +163,7 @@ func TestPersistence(t *testing.T) {
 	}
 
 	rule := &engine.Rule{
-		localhostDNSRule,
+		Rule: localhostDNSRule,
 	}
 
 	var ldr engine.JSONLoader
