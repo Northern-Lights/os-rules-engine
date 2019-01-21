@@ -1,6 +1,8 @@
 package tests
 
 import (
+	"io"
+	"io/ioutil"
 	"testing"
 
 	"github.com/Northern-Lights/os-rules-engine/engine"
@@ -14,6 +16,22 @@ var conn = &network.Connection{
 	ProcessId:   9741,
 	ProcessPath: "/usr/bin/firefox",
 	UserId:      501,
+}
+
+var localhostDNSRule = &rules.Rule{
+	Action:   rules.Action_ALLOW,
+	Duration: rules.Duration_FIREWALL_SESSION,
+	Condition: &rules.Expression{
+		Operation: rules.Operation_AND,
+		Left: &rules.Expression{
+			Operation: rules.Operation_DST_HOST,
+			Strings:   []string{"127.0.0.1"},
+		},
+		Right: &rules.Expression{
+			Operation: rules.Operation_DST_PORT,
+			Uint32S:   []uint32{53},
+		},
+	},
 }
 
 func TestTrueExpression(t *testing.T) {
@@ -135,5 +153,57 @@ func TestShortCircuitTrue(t *testing.T) {
 	matched = shortCircuitTrue.Evaluate(conn)
 	if !matched {
 		t.Errorf(`Wrong condition was not short circuited`)
+	}
+}
+
+func TestPersistence(t *testing.T) {
+	f, err := ioutil.TempFile("", "os-rules-engine-test")
+	if err != nil {
+		t.Fatalf("Couldn't create temp file: %s", err)
+	}
+
+	rule := &engine.Rule{
+		localhostDNSRule,
+	}
+
+	var ldr engine.JSONLoader
+	err = ldr.SaveRules(f, []*engine.Rule{rule})
+	if err != nil {
+		t.Fatalf(`Couldn't save rule: %s`, err)
+	}
+
+	err = f.Sync()
+	if err != nil {
+		t.Fatalf(`Couldn't flush file: %s`, err)
+	}
+
+	_, err = f.Seek(0, io.SeekStart)
+	if err != nil {
+		t.Fatalf(`Couldn't rewind file: %s`, err)
+	}
+
+	loadedRules, err := ldr.LoadRules(f)
+	if err != nil {
+		t.Fatalf(`Couldn't load rules: %s`, err)
+	}
+	if len(loadedRules) < 1 {
+		t.Fatalf(`No rules in loaded ruleset`)
+	}
+
+	loadedRule := loadedRules[0]
+	if loadedRule.Rule.Action != localhostDNSRule.Action {
+		t.Errorf("Expected action %s; got %s",
+			localhostDNSRule.Action,
+			loadedRule.Rule.Action)
+	}
+	if loadedRule.Rule.Duration != localhostDNSRule.Duration {
+		t.Errorf("Expected duration %s; got %s",
+			localhostDNSRule.Duration,
+			loadedRule.Rule.Duration)
+	}
+	if loadedRule.Rule.Condition.Operation != localhostDNSRule.Condition.Operation {
+		t.Errorf("Expected 1st level condition %s; got %s",
+			localhostDNSRule.Condition.Operation,
+			loadedRule.Rule.Condition.Operation)
 	}
 }
