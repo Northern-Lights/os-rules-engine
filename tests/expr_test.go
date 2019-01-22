@@ -1,7 +1,6 @@
 package tests
 
 import (
-	"io"
 	"io/ioutil"
 	"testing"
 
@@ -161,26 +160,15 @@ func TestPersistence(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Couldn't create temp file: %s", err)
 	}
+	f.Close()
 
-	rule := localhostDNSRule
-
-	var ldr engine.JSONLoader
-	err = ldr.SaveRules(f, []*rules.Rule{rule})
+	ldr := engine.NewJSONLoader(f.Name())
+	err = ldr.SaveRules([]*rules.Rule{localhostDNSRule})
 	if err != nil {
 		t.Fatalf(`Couldn't save rule: %s`, err)
 	}
 
-	err = f.Sync()
-	if err != nil {
-		t.Fatalf(`Couldn't flush file: %s`, err)
-	}
-
-	_, err = f.Seek(0, io.SeekStart)
-	if err != nil {
-		t.Fatalf(`Couldn't rewind file: %s`, err)
-	}
-
-	loadedRules, err := ldr.LoadRules(f)
+	loadedRules, err := ldr.LoadRules()
 	if err != nil {
 		t.Fatalf(`Couldn't load rules: %s`, err)
 	}

@@ -30,6 +30,7 @@ func (ldr *JSONLoader) LoadRules() ([]*rules.Rule, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	out := make([]*rules.Rule, 0, 500)
 	dec := json.NewDecoder(f)
@@ -45,10 +46,11 @@ func (ldr *JSONLoader) SaveRules(r []*rules.Rule) error {
 	ldr.Lock()
 	defer ldr.Unlock()
 
-	f, err := os.Open(ldr.rulesFilePath)
+	f, err := os.Create(ldr.rulesFilePath)
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
 	enc := json.NewEncoder(f)
 	err = enc.Encode(&r)
