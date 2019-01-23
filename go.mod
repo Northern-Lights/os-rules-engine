@@ -8,5 +8,6 @@ require (
 	github.com/google/gopacket v1.1.15 // indirect
 	golang.org/x/net v0.0.0-20190119204137-ed066c81e75e
 	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
+	google.golang.org/genproto v0.0.0-20190122154452-ba6ebe99b011 // indirect
 	google.golang.org/grpc v1.18.0
 )
