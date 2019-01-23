@@ -97,7 +97,6 @@ func (x and) Serialize() *rules.Expression {
 	}
 }
 
-// And creates an AND expression that can be serialized and deserialized
 func And(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
 	return &and{
 		op:    rules.Operation_AND,
@@ -129,7 +128,6 @@ func (x or) Serialize() *rules.Expression {
 	}
 }
 
-// Or ...
 func Or(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
 	return &or{
 		op:    rules.Operation_OR,
@@ -141,7 +139,6 @@ func Or(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
 func deserializeOr(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
 	expr, err = buildBinaryExpression(x, rules.Operation_OR, Or)
 	return
-
 }
 
 type not struct {
@@ -160,7 +157,6 @@ func (x not) Serialize() *rules.Expression {
 	}
 }
 
-// Not ...
 func Not(x1 rule.ExpressionSerializer) rule.ExpressionSerializer {
 	return &not{
 		op:   rules.Operation_NOT,
