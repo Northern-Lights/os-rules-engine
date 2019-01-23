@@ -3,6 +3,7 @@ package engine
 import (
 	"github.com/Northern-Lights/os-rules-engine/network"
 	"github.com/Northern-Lights/os-rules-engine/rules"
+	"github.com/evilsocket/opensnitch/daemon/rule"
 )
 
 type ipAddr struct {
@@ -15,7 +16,7 @@ func (x ipAddr) Evaluate(c *network.Connection) bool {
 
 // IPAddr returns an expression that evaluates to true if the connection's
 // destination IP address matches the given address
-func IPAddr(addr string) ExpressionSerializer {
+func IPAddr(addr string) rule.ExpressionSerializer {
 	return ipAddr{
 		strExpression{
 			op:         rules.Operation_DST_IP,

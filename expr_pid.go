@@ -5,6 +5,7 @@ import (
 
 	"github.com/Northern-Lights/os-rules-engine/network"
 	"github.com/Northern-Lights/os-rules-engine/rules"
+	"github.com/evilsocket/opensnitch/daemon/rule"
 )
 
 type pid uint32
@@ -22,11 +23,11 @@ func (x pid) Serialize() *rules.Expression {
 
 // PID returns an expression that evaluates to true if the connection's
 // process's pid matches the given pid
-func PID(n uint32) ExpressionSerializer {
+func PID(n uint32) rule.ExpressionSerializer {
 	return pid(n)
 }
 
-func deserializePID(x *rules.Expression) (expr ExpressionSerializer, err error) {
+func deserializePID(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
 	if len(x.Uint32S) < 1 {
 		err = fmt.Errorf(`engine: no uint32 operands to parse pid`)
 		return
