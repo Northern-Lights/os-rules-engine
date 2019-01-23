@@ -1,4 +1,4 @@
-all: go
+all: go py3
 
 go:
 	protoc -I ./proto --go_out=plugins=grpc:. ./proto/opensnitch/network/*.proto
@@ -10,7 +10,7 @@ go:
 	rm -r ./opensnitch/ui
 	# Different for ui because Linux grpc plugin outputs it in the wrong directory
 
-python3:
+py3:
 	python3 -m grpc_tools.protoc -I ./proto \
 		--python_out=./python3/ \
 		--grpc_python_out=./python3/ \
