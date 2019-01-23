@@ -50,6 +50,7 @@ enum Operation {
 // type upon which to operate. The language-specific implementation should
 // select the correct field based on the operation
 message Expression {
+    string name = 4;
     Operation operation = 1;
     Expression left = 14;
     Expression right = 15;
