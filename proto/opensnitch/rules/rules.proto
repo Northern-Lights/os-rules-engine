@@ -5,6 +5,7 @@ package opensnitch.rules;
 option go_package = "github.com/Northern-Lights/os-rules-engine/rules";
 
 message Rule {
+    string name = 4;
     Action action = 1;
     Duration duration = 2;
     Expression condition = 3;
@@ -50,7 +51,6 @@ enum Operation {
 // type upon which to operate. The language-specific implementation should
 // select the correct field based on the operation
 message Expression {
-    string name = 4;
     Operation operation = 1;
     Expression left = 14;
     Expression right = 15;

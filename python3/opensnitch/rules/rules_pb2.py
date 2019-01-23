@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='opensnitch.rules',
   syntax='proto3',
   serialized_options=_b('Z0github.com/Northern-Lights/os-rules-engine/rules'),
-  serialized_pb=_b('\n\x1copensnitch/rules/rules.proto\x12\x10opensnitch.rules\"\x8f\x01\n\x04Rule\x12(\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x18.opensnitch.rules.Action\x12,\n\x08\x64uration\x18\x02 \x01(\x0e\x32\x1a.opensnitch.rules.Duration\x12/\n\tcondition\x18\x03 \x01(\x0b\x32\x1c.opensnitch.rules.Expression\"\xc5\x01\n\nExpression\x12\x0c\n\x04name\x18\x04 \x01(\t\x12.\n\toperation\x18\x01 \x01(\x0e\x32\x1b.opensnitch.rules.Operation\x12*\n\x04left\x18\x0e \x01(\x0b\x32\x1c.opensnitch.rules.Expression\x12+\n\x05right\x18\x0f \x01(\x0b\x32\x1c.opensnitch.rules.Expression\x12\x0f\n\x07strings\x18\x02 \x03(\t\x12\x0f\n\x07uint32s\x18\x03 \x03(\r*1\n\x06\x41\x63tion\x12\x12\n\x0e\x41\x43TION_UNKNOWN\x10\x00\x12\t\n\x05\x41LLOW\x10\x01\x12\x08\n\x04\x44\x45NY\x10\x02*L\n\x08\x44uration\x12\x14\n\x10\x44URATION_UNKNOWN\x10\x00\x12\x08\n\x04ONCE\x10\x01\x12\x14\n\x10\x46IREWALL_SESSION\x10\x02\x12\n\n\x06\x41LWAYS\x10\x03*\x91\x01\n\tOperation\x12\x15\n\x11OPERATION_UNKNOWN\x10\x00\x12\x08\n\x04TRUE\x10\t\x12\t\n\x05\x46\x41LSE\x10\n\x12\x07\n\x03\x41ND\x10\x01\x12\x06\n\x02OR\x10\x02\x12\x07\n\x03NOT\x10\x03\x12\n\n\x06\x44ST_IP\x10\x04\x12\x0c\n\x08\x44ST_HOST\x10\x05\x12\x0c\n\x08\x44ST_PORT\x10\x06\x12\r\n\tPROC_PATH\x10\x07\x12\x07\n\x03PID\x10\x08\x42\x32Z0github.com/Northern-Lights/os-rules-engine/rulesb\x06proto3')
+  serialized_pb=_b('\n\x1copensnitch/rules/rules.proto\x12\x10opensnitch.rules\"\x9d\x01\n\x04Rule\x12\x0c\n\x04name\x18\x04 \x01(\t\x12(\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x18.opensnitch.rules.Action\x12,\n\x08\x64uration\x18\x02 \x01(\x0e\x32\x1a.opensnitch.rules.Duration\x12/\n\tcondition\x18\x03 \x01(\x0b\x32\x1c.opensnitch.rules.Expression\"\xb7\x01\n\nExpression\x12.\n\toperation\x18\x01 \x01(\x0e\x32\x1b.opensnitch.rules.Operation\x12*\n\x04left\x18\x0e \x01(\x0b\x32\x1c.opensnitch.rules.Expression\x12+\n\x05right\x18\x0f \x01(\x0b\x32\x1c.opensnitch.rules.Expression\x12\x0f\n\x07strings\x18\x02 \x03(\t\x12\x0f\n\x07uint32s\x18\x03 \x03(\r*1\n\x06\x41\x63tion\x12\x12\n\x0e\x41\x43TION_UNKNOWN\x10\x00\x12\t\n\x05\x41LLOW\x10\x01\x12\x08\n\x04\x44\x45NY\x10\x02*L\n\x08\x44uration\x12\x14\n\x10\x44URATION_UNKNOWN\x10\x00\x12\x08\n\x04ONCE\x10\x01\x12\x14\n\x10\x46IREWALL_SESSION\x10\x02\x12\n\n\x06\x41LWAYS\x10\x03*\x91\x01\n\tOperation\x12\x15\n\x11OPERATION_UNKNOWN\x10\x00\x12\x08\n\x04TRUE\x10\t\x12\t\n\x05\x46\x41LSE\x10\n\x12\x07\n\x03\x41ND\x10\x01\x12\x06\n\x02OR\x10\x02\x12\x07\n\x03NOT\x10\x03\x12\n\n\x06\x44ST_IP\x10\x04\x12\x0c\n\x08\x44ST_HOST\x10\x05\x12\x0c\n\x08\x44ST_PORT\x10\x06\x12\r\n\tPROC_PATH\x10\x07\x12\x07\n\x03PID\x10\x08\x42\x32Z0github.com/Northern-Lights/os-rules-engine/rulesb\x06proto3')
 )
 
 _ACTION = _descriptor.EnumDescriptor(
@@ -169,21 +169,28 @@ _RULE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='action', full_name='opensnitch.rules.Rule.action', index=0,
+      name='name', full_name='opensnitch.rules.Rule.name', index=0,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='action', full_name='opensnitch.rules.Rule.action', index=1,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='duration', full_name='opensnitch.rules.Rule.duration', index=1,
+      name='duration', full_name='opensnitch.rules.Rule.duration', index=2,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='condition', full_name='opensnitch.rules.Rule.condition', index=2,
+      name='condition', full_name='opensnitch.rules.Rule.condition', index=3,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -202,7 +209,7 @@ _RULE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=51,
-  serialized_end=194,
+  serialized_end=208,
 )
 
 
@@ -214,42 +221,35 @@ _EXPRESSION = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='opensnitch.rules.Expression.name', index=0,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='operation', full_name='opensnitch.rules.Expression.operation', index=1,
+      name='operation', full_name='opensnitch.rules.Expression.operation', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='left', full_name='opensnitch.rules.Expression.left', index=2,
+      name='left', full_name='opensnitch.rules.Expression.left', index=1,
       number=14, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='right', full_name='opensnitch.rules.Expression.right', index=3,
+      name='right', full_name='opensnitch.rules.Expression.right', index=2,
       number=15, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='strings', full_name='opensnitch.rules.Expression.strings', index=4,
+      name='strings', full_name='opensnitch.rules.Expression.strings', index=3,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uint32s', full_name='opensnitch.rules.Expression.uint32s', index=5,
+      name='uint32s', full_name='opensnitch.rules.Expression.uint32s', index=4,
       number=3, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -267,7 +267,7 @@ _EXPRESSION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=197,
+  serialized_start=211,
   serialized_end=394,
 )
 
