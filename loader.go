@@ -21,12 +21,15 @@ func NewJSONLoader(rulesFilePath string) *JSONLoader {
 	}
 }
 
-// LoadRules loads JSON-formatted rules
+// LoadRules loads JSON-formatted rules. No error occurs if file doesn't exist
 func (ldr *JSONLoader) LoadRules() ([]*rules.Rule, error) {
 	ldr.RLock()
 	defer ldr.RUnlock()
 
 	f, err := os.Open(ldr.rulesFilePath)
+	if os.IsNotExist(err) {
+		return []*rules.Rule{}, nil
+	}
 	if err != nil {
 		return nil, err
 	}
