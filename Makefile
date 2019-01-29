@@ -13,11 +13,9 @@ go:
 py3:
 	python3 -m grpc_tools.protoc -I ./proto \
 		--python_out=./python3/ \
-		--grpc_python_out=./python3/ \
 		./proto/opensnitch/network/*.proto
 	python3 -m grpc_tools.protoc -I ./proto \
 		--python_out=./python3/ \
-		--grpc_python_out=./python3/ \
 		./proto/opensnitch/rules/*.proto
 	python3 -m grpc_tools.protoc -I ./proto \
 		--python_out=./python3/ \
