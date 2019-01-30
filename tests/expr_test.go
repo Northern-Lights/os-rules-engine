@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	engine "github.com/Northern-Lights/os-rules-engine"
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 var conn = &network.Connection{

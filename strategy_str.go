@@ -5,8 +5,7 @@ package engine
 import (
 	"fmt"
 
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type strCmp func(target, comparison string) bool
@@ -32,7 +31,7 @@ func (s strExpression) Serialize() *rules.Expression {
 	}
 }
 
-func deserializeStrExpression(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+func deserializeStrExpression(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	if len(x.Strings) < 1 {
 		err = fmt.Errorf(`engine: no string operands to parse %s`, x.Operation)
 		return

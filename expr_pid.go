@@ -3,9 +3,8 @@ package engine
 import (
 	"fmt"
 
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type pid uint32
@@ -23,11 +22,11 @@ func (x pid) Serialize() *rules.Expression {
 
 // PID returns an expression that evaluates to true if the connection's
 // process's pid matches the given pid
-func PID(n uint32) rule.ExpressionSerializer {
+func PID(n uint32) rules.EvaluatorSerializer {
 	return pid(n)
 }
 
-func deserializePID(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+func deserializePID(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	if len(x.Uint32S) < 1 {
 		err = fmt.Errorf(`engine: no uint32 operands to parse pid`)
 		return

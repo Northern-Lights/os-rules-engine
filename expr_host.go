@@ -1,9 +1,8 @@
 package engine
 
 import (
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type host struct {
@@ -16,7 +15,7 @@ func (x host) Evaluate(c *network.Connection) bool {
 
 // Host returns an expression that evaluates to true if the connection's
 // destination host matches the given hostname
-func Host(hostname string) rule.ExpressionSerializer {
+func Host(hostname string) rules.EvaluatorSerializer {
 	return &host{
 		strExpression{
 			op:         rules.Operation_DST_HOST,

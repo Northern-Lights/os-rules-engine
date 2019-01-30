@@ -3,13 +3,12 @@ package engine
 import (
 	"fmt"
 
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 // Deserialize attempts to take an Expression protocol buffer and deserialize it
-// into an evaluable (and serializable) expression
-func Deserialize(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+// into an EvaluatorSerializer
+func Deserialize(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	if x == nil {
 		err = fmt.Errorf("engine: cannot deserialize a nil expression")
 		return

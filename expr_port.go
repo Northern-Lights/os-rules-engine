@@ -3,9 +3,8 @@ package engine
 import (
 	"fmt"
 
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type port uint32
@@ -23,11 +22,11 @@ func (x port) Serialize() *rules.Expression {
 
 // Port returns an expression that evaluates to true if the connection's
 // destination port matches the given port
-func Port(portnum uint32) rule.ExpressionSerializer {
+func Port(portnum uint32) rules.EvaluatorSerializer {
 	return port(portnum)
 }
 
-func deserializePort(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+func deserializePort(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	if len(x.Uint32S) < 1 {
 		err = fmt.Errorf(`engine: no uint32 operands to parse port`)
 		return

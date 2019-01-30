@@ -10,9 +10,8 @@ package engine
 import (
 	"fmt"
 
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type boolExpr struct {
@@ -29,10 +28,10 @@ func (x boolExpr) Serialize() *rules.Expression {
 	}
 }
 
-// Bool returns an ExpressionSerializer which will return the value given,
+// Bool returns an EvaluatorSerializer which will return the value given,
 // regardless of the connection to be verified against. Useful for
 // short-circuiting other expressions
-func Bool(value bool) rule.ExpressionSerializer {
+func Bool(value bool) rules.EvaluatorSerializer {
 	var x boolExpr
 	if value == true {
 		x.op = rules.Operation_TRUE
@@ -42,16 +41,16 @@ func Bool(value bool) rule.ExpressionSerializer {
 	return x
 }
 
-func deserializeBool(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+func deserializeBool(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	expr = boolExpr{
 		op: x.Operation,
 	}
 	return
 }
 
-type binaryExpressionConstructor func(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer
+type binaryEvaluatorConstructor func(x1, x2 rules.EvaluatorSerializer) rules.EvaluatorSerializer
 
-func buildBinaryExpression(x *rules.Expression, op rules.Operation, bec binaryExpressionConstructor) (expr rule.ExpressionSerializer, err error) {
+func buildBinaryEvaluator(x *rules.Expression, op rules.Operation, bec binaryEvaluatorConstructor) (expr rules.EvaluatorSerializer, err error) {
 	if x.Operation != op {
 		err = fmt.Errorf(`engine: expected operation %s; got %s`, op, x.Operation)
 		return
@@ -81,8 +80,8 @@ func buildBinaryExpression(x *rules.Expression, op rules.Operation, bec binaryEx
 
 type and struct {
 	op    rules.Operation
-	left  rule.ExpressionSerializer
-	right rule.ExpressionSerializer
+	left  rules.EvaluatorSerializer
+	right rules.EvaluatorSerializer
 }
 
 func (x and) Evaluate(c *network.Connection) bool {
@@ -97,7 +96,7 @@ func (x and) Serialize() *rules.Expression {
 	}
 }
 
-func And(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
+func And(x1, x2 rules.EvaluatorSerializer) rules.EvaluatorSerializer {
 	return &and{
 		op:    rules.Operation_AND,
 		left:  x1,
@@ -105,15 +104,15 @@ func And(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
 	}
 }
 
-func deserializeAnd(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
-	expr, err = buildBinaryExpression(x, rules.Operation_AND, And)
+func deserializeAnd(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
+	expr, err = buildBinaryEvaluator(x, rules.Operation_AND, And)
 	return
 }
 
 type or struct {
 	op    rules.Operation
-	left  rule.ExpressionSerializer
-	right rule.ExpressionSerializer
+	left  rules.EvaluatorSerializer
+	right rules.EvaluatorSerializer
 }
 
 func (x or) Evaluate(c *network.Connection) bool {
@@ -128,7 +127,7 @@ func (x or) Serialize() *rules.Expression {
 	}
 }
 
-func Or(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
+func Or(x1, x2 rules.EvaluatorSerializer) rules.EvaluatorSerializer {
 	return &or{
 		op:    rules.Operation_OR,
 		left:  x1,
@@ -136,14 +135,14 @@ func Or(x1, x2 rule.ExpressionSerializer) rule.ExpressionSerializer {
 	}
 }
 
-func deserializeOr(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
-	expr, err = buildBinaryExpression(x, rules.Operation_OR, Or)
+func deserializeOr(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
+	expr, err = buildBinaryEvaluator(x, rules.Operation_OR, Or)
 	return
 }
 
 type not struct {
 	op   rules.Operation
-	left rule.ExpressionSerializer
+	left rules.EvaluatorSerializer
 }
 
 func (x not) Evaluate(c *network.Connection) bool {
@@ -157,14 +156,14 @@ func (x not) Serialize() *rules.Expression {
 	}
 }
 
-func Not(x1 rule.ExpressionSerializer) rule.ExpressionSerializer {
+func Not(x1 rules.EvaluatorSerializer) rules.EvaluatorSerializer {
 	return &not{
 		op:   rules.Operation_NOT,
 		left: x1,
 	}
 }
 
-func deserializeNot(x *rules.Expression) (expr rule.ExpressionSerializer, err error) {
+func deserializeNot(x *rules.Expression) (expr rules.EvaluatorSerializer, err error) {
 	if x.Operation != rules.Operation_NOT {
 		err = fmt.Errorf(`engine: expected operation %s; got %s`, rules.Operation_NOT, x.Operation)
 		return

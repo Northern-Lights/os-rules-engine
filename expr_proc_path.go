@@ -1,9 +1,8 @@
 package engine
 
 import (
-	"github.com/Northern-Lights/os-rules-engine/network"
-	"github.com/Northern-Lights/os-rules-engine/rules"
-	"github.com/evilsocket/opensnitch/daemon/rule"
+	"github.com/evilsocket/opensnitch/network"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 type procPath struct {
@@ -16,7 +15,7 @@ func (x procPath) Evaluate(c *network.Connection) bool {
 
 // ProcPath returns an expression that evaluates to true if the connection's
 // process path matches the given process path
-func ProcPath(pp string) rule.ExpressionSerializer {
+func ProcPath(pp string) rules.EvaluatorSerializer {
 	return &procPath{
 		strExpression{
 			op:         rules.Operation_PROC_PATH,

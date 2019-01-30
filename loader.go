@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/Northern-Lights/os-rules-engine/rules"
+	"github.com/evilsocket/opensnitch/rules"
 )
 
 // JSONLoader can load and store rules
